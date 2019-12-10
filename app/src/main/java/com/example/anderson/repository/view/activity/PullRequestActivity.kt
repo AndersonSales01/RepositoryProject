@@ -11,9 +11,7 @@ import com.example.anderson.repository.viewmodel.PullRequestViewModel
 import kotlinx.android.synthetic.main.activity_pull_request.*
 import android.arch.lifecycle.Observer
 import android.view.View
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
+import kotlinx.coroutines.*
 
 
 class PullRequestActivity : BaseActivity(), CoroutineScope {
@@ -46,7 +44,15 @@ class PullRequestActivity : BaseActivity(), CoroutineScope {
 
         Observables()
 
-        pullRequestViewModel.callRequestPullResquest(nameOwner, nameRepository)
+        launch {
+
+            withContext(Dispatchers.IO){
+                pullRequestViewModel.callRequestPullResquest(nameOwner, nameRepository)
+            }
+
+        }
+
+
 
     }
 

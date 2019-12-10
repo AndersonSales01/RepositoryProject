@@ -3,6 +3,9 @@ package com.example.anderson.repository.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LifecycleObserver
+
+
 import com.example.anderson.repository.model.entity.PullRequest
 import com.example.anderson.repository.model.repository.RepoPullRequest
 import rx.android.schedulers.AndroidSchedulers
@@ -12,7 +15,7 @@ import java.security.acl.Owner
 /**
  * Created by Anderson on 05/01/2019.
  */
-class PullRequestViewModel : ViewModel() {
+class PullRequestViewModel : ViewModel(), LifecycleObserver {
 
     private var listPullRequest = mutableListOf<PullRequest>()
 
@@ -33,8 +36,12 @@ class PullRequestViewModel : ViewModel() {
 
     }
 
-
     fun requestPullRequest(nameOwner: String, nameRepository: String) {
+
+//        viewModelScope.launch {
+//
+//        }
+
 
         repository.loadPullRequest(nameOwner, nameRepository)
                 .subscribeOn(Schedulers.io())
