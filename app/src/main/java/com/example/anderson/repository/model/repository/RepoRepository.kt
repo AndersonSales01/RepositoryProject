@@ -14,20 +14,25 @@ class RepoRepository {
   //  lateinit var repositoryEndPoint: RepositoryEndPoint
 
 
-    fun loadRepository(page:Int) = RepositoryApi.getInstance()
+//   suspend fun loadRepository(page:Int) = RepositoryApi.getInstance()
+//
+//            .create(RepositoryEndPoint::class.java)
+//            .listRepository(page)
+//            .flatMap { result ->
+//                Observable.from(result.repositoryList)
+//                        .flatMap { repositoryResult ->
+//                            Observable.just(
+//                                    Repository(repositoryResult.nameRepository,repositoryResult.fullName, repositoryResult.description,
+//                                            repositoryResult.numberForks, repositoryResult.numberStarts, Author(repositoryResult.owner.name,repositoryResult.owner.urlAvatar)))
+//                        }
+//
+//
+//            }!!
 
+    suspend fun loadRepository(page:Int) = RepositoryApi.getInstance()
             .create(RepositoryEndPoint::class.java)
             .listRepository(page)
-            .flatMap { result ->
-                Observable.from(result.repositoryList)
-                        .flatMap { repositoryResult ->
-                            Observable.just(
-                                    Repository(repositoryResult.nameRepository,repositoryResult.fullName, repositoryResult.description,
-                                            repositoryResult.numberForks, repositoryResult.numberStarts, Author(repositoryResult.owner.name,repositoryResult.owner.urlAvatar)))
-                        }
 
-
-            }!!
 
 
 }

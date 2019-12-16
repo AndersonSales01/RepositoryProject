@@ -2,6 +2,7 @@ package com.example.anderson.repository.model.api
 
 import com.example.anderson.repository.constants.Constants
 import com.google.gson.GsonBuilder
+import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -29,8 +30,10 @@ object RepositoryApi {
 
             retrofit = Retrofit.Builder()
                     .baseUrl(Constants.BASEURL)
-                    //Responsavel por criar objetos RX
+//                    //Responsavel por criar objetos RX
                     .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                    //Aplicando coroutine adapter
+                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .client(httpClient.build())
                     .build()

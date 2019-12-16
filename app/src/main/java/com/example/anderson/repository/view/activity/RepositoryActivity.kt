@@ -20,7 +20,7 @@ import com.example.anderson.repository.viewmodel.RepositoryViewModel
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class RepositoryActivity : AppCompatActivity() {
+class RepositoryActivity : BaseActivity() {
 
     private lateinit var repositoryViewModel: RepositoryViewModel
     private lateinit var repositoryAdapter: RepositoryAdapter
@@ -37,6 +37,23 @@ class RepositoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository)
 
+        initialize()
+
+    }
+
+    override fun initialize() {
+
+        repositoryViewModel = ViewModelProviders.of(this)
+                .get(RepositoryViewModel::class.java)
+
+        initViews()
+
+        observables()
+
+        repositoryViewModel.callrequestRepository()
+    }
+
+    override fun initViews() {
 
         repositoryAdapter = RepositoryAdapter(this)
 
@@ -45,14 +62,10 @@ class RepositoryActivity : AppCompatActivity() {
         recyclerView.layoutManager = manager
         recyclerView.adapter = repositoryAdapter
 
+        scrollInfinite()
+    }
 
-        repositoryViewModel = ViewModelProviders.of(this)
-                .get(RepositoryViewModel::class.java)
-
-
-        repositoryViewModel.callrequestRepository()
-
-
+    override fun observables() {
 
         repositoryViewModel.getListRespository().observe(this, Observer { listRespository ->
             repositoryAdapter.loadRepository(listRespository!!)
@@ -61,46 +74,29 @@ class RepositoryActivity : AppCompatActivity() {
         })
 
         repositoryViewModel.showProgress().observe(this, Observer { isShow ->
-            progress_repository.progress = 100
-            if (isShow!!) {
-                progress_repository.visibility = View.GONE
 
+            if (isShow!!) {
+                progress_repository.visibility = View.VISIBLE
+
+            } else {
+                progress_repository.visibility = View.GONE
             }
         })
+    }
+
+    fun scrollInfinite() {
 
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-
 
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
-                currentItems = manager.childCount
-                totalItems = manager.itemCount
-                scrollOutItems = manager.findFirstVisibleItemPosition()
+                repositoryViewModel.getMoreItems(manager.childCount, manager.findFirstVisibleItemPosition(), manager.itemCount)
 
-               // if (dy > 0) {
-
-                    if (isScrolling && (currentItems + scrollOutItems) >= totalItems) {
-
-
-                        repositoryViewModel.requestRepository()
-
-
-                       isScrolling = false
-
-
-                    }
-
-                }
-
-          //  }
-
+            }
 
         })
-
-       // statusRecyclerView()
-
     }
 
 
-    }
+}

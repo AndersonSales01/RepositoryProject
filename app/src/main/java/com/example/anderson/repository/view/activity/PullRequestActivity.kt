@@ -42,7 +42,7 @@ class PullRequestActivity : BaseActivity(), CoroutineScope {
 
         initViews()
 
-        Observables()
+        observables()
 
         launch {
 
@@ -82,7 +82,7 @@ class PullRequestActivity : BaseActivity(), CoroutineScope {
 
     }
 
-    override fun Observables() {
+    override fun observables() {
 
         pullRequestViewModel.getListPullRequests().observe(this, Observer { listPullRquests ->
             pullRequestAdapter.loadPullRequest(listPullRquests!!)

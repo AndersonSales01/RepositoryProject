@@ -5,8 +5,10 @@ import androidx.lifecycle.*
 
 
 import com.example.anderson.repository.model.entity.PullRequest
+import com.example.anderson.repository.model.entity.User
 import com.example.anderson.repository.model.repository.RepoPullRequest
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -40,49 +42,90 @@ class PullRequestViewModel : ViewModel(), LifecycleObserver {
     }
 
 
-    fun requestPullRequest(nameOwner: String, nameRepository: String) {
+//    fun requestPullRequest(nameOwner: String, nameRepository: String) {
+//
+//        viewModelScope.launch {
+//
+//            withContext(Dispatchers.IO){
+//
+//
+//
+//
+//
+//
+//                repository.loadPullRequest(nameOwner, nameRepository)
+//                        .subscribeOn(Schedulers.io())
+//
+//                        .observeOn(AndroidSchedulers.mainThread())
+//
+//                        .subscribe({
+//
+//                            pullRquest ->
+//                            listPullRequest.add(pullRquest)
+//
+//                        }, {
+//
+//                            e ->
+//                            e.printStackTrace()
+//                            liveDataListPullRequestRepository.value = listPullRequest
+//                            showProgress.value = true
+//                        }, {
+//
+//                            liveDataListPullRequestRepository.value = listPullRequest
+//                            showProgress.value = true
+//
+//                        })
+//
+//            }
+//
+//        }
+
+
+    private fun requestPullRequest(nameOwner: String, nameRepository: String) {
 
         viewModelScope.launch {
 
-            withContext(Dispatchers.IO){
+            withContext(Dispatchers.IO) {
 
-                repository.loadPullRequest(nameOwner, nameRepository)
-                        .subscribeOn(Schedulers.io())
 
-                        .observeOn(AndroidSchedulers.mainThread())
 
-                        .subscribe({
+                showProgress.postValue(true)
 
-                            pullRquest ->
-                            listPullRequest.add(pullRquest)
+                delay(500)
 
-                        }, {
+                val response = repository.loadPullRequest(nameOwner, nameRepository)
 
-                            e ->
-                            e.printStackTrace()
-                            liveDataListPullRequestRepository.value = listPullRequest
-                            showProgress.value = true
-                        }, {
+                if (response.isSuccessful) {
 
-                            liveDataListPullRequestRepository.value = listPullRequest
-                            showProgress.value = true
+                    response.body().let { listOfPullRequest ->
 
-                        })
 
+                        listOfPullRequest.let { pullRequests ->
+
+                            if (pullRequests != null) {
+
+                                for (pullRequest in pullRequests) {
+
+                                    val pullRequestObj = PullRequest(pullRequest.title, pullRequest.body, pullRequest.dataCreatePullRequest,
+                                            pullRequest.urlPullRequest, User(pullRequest.user.name, pullRequest.user.avatarURL))
+
+                                    listPullRequest.add(pullRequestObj)
+
+                                }
+
+                                liveDataListPullRequestRepository.postValue(listPullRequest)
+                                showProgress.postValue(false)
+
+                            }
+                        }
+                    }
+                }
             }
-
         }
-
-
     }
 
 
-
-
-
-
-
-    fun getListPullRequests() : LiveData<List<PullRequest>> = liveDataListPullRequestRepository
+    fun getListPullRequests(): LiveData<List<PullRequest>> = liveDataListPullRequestRepository
     fun showProgress(): LiveData<Boolean> = showProgress
 
 

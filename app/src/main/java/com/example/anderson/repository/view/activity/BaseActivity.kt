@@ -13,5 +13,5 @@ abstract class BaseActivity : AppCompatActivity() {
 
   abstract fun initialize()
   abstract fun initViews()
-  abstract fun Observables()
+  abstract fun observables()
 }

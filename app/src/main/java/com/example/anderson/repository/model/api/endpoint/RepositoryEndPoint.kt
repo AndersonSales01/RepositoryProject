@@ -1,6 +1,7 @@
 package com.example.anderson.repository.model.api.endpoint
 
 import com.example.anderson.repository.model.entityrequest.Result
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 import rx.Observable
@@ -10,6 +11,9 @@ import rx.Observable
  */
 interface RepositoryEndPoint {
 
+//    @GET("search/repositories?q=language:Java&sort=stars")
+////    fun  listRepository( @Query("page") page: Int ): Observable<Result>
+
     @GET("search/repositories?q=language:Java&sort=stars")
-    fun  listRepository( @Query("page") page: Int ): Observable<Result>
+    suspend fun  listRepository( @Query("page") page: Int ): Response<Result>
 }
