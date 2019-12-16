@@ -1,8 +1,9 @@
 package com.example.anderson.repository.viewmodel
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.example.anderson.repository.model.entity.Repository
 import com.example.anderson.repository.model.repository.RepoRepository
 import rx.android.schedulers.AndroidSchedulers
@@ -36,6 +37,8 @@ class RepositoryViewModel : ViewModel() {
 
      fun requestRepository() {
 
+         var stringo = "12213"
+         stringo= stringo.toString().toLong().toString()
 
         repository.loadRepository(page)
 

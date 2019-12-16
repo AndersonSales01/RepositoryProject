@@ -1,7 +1,7 @@
 package com.example.anderson.repository.view.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.anderson.repository.R
@@ -20,7 +20,7 @@ class PullRequestAdapter( val context: Context) : RecyclerView.Adapter<ViewHolde
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: ViewHolderPullRequest?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderPullRequest, position: Int) {
         val pullRequest = listPullRequest[position]
 
         holder?.bindView(pullRequest)
@@ -30,7 +30,7 @@ class PullRequestAdapter( val context: Context) : RecyclerView.Adapter<ViewHolde
         return listPullRequest.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolderPullRequest {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderPullRequest {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_list_pull_request, parent, false)
         return ViewHolderPullRequest(view,context)
     }

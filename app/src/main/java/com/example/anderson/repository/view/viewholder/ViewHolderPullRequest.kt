@@ -3,7 +3,7 @@ package com.example.anderson.repository.view.viewholder
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import br.com.repository.util.DateFormatUtil
 import com.example.anderson.repository.model.entity.PullRequest

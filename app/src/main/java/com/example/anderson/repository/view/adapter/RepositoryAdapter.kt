@@ -1,7 +1,7 @@
 package com.example.anderson.repository.view.adapter
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.example.anderson.repository.R
@@ -20,7 +20,7 @@ class RepositoryAdapter (val context: Context) : RecyclerView.Adapter<ViewHolder
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: ViewHolderRepository?, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolderRepository, position: Int) {
         val repository = listRepository[position]
 
         holder?.bindView(repository)
@@ -30,7 +30,7 @@ class RepositoryAdapter (val context: Context) : RecyclerView.Adapter<ViewHolder
         return listRepository.size
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolderRepository {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderRepository {
         val view = LayoutInflater.from(parent?.context).inflate(R.layout.item_list_repository, parent, false)
         return ViewHolderRepository(view,context)
     }

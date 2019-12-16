@@ -12,7 +12,7 @@ import rx.Observable
 class RepoPullRequest {
 
 
-    fun loadPullRequest(nameOwner: String, nameRepository: String) = RepositoryApi.getInstance()
+   suspend fun loadPullRequest(nameOwner: String, nameRepository: String) = RepositoryApi.getInstance()
 
             .create(PullRequestEndPoint::class.java)
             .callPullRequest(nameOwner, nameRepository)

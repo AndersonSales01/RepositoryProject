@@ -2,8 +2,8 @@ package com.example.anderson.repository.view.viewholder
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat.startActivity
-import android.support.v7.widget.RecyclerView
+import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.example.anderson.repository.constants.Constants
 import com.example.anderson.repository.model.entity.Repository

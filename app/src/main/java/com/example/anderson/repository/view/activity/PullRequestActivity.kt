@@ -1,15 +1,15 @@
 package com.example.anderson.repository.view.activity
 
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.anderson.repository.R
 import com.example.anderson.repository.constants.Constants
 import com.example.anderson.repository.view.adapter.PullRequestAdapter
 import com.example.anderson.repository.viewmodel.PullRequestViewModel
 import kotlinx.android.synthetic.main.activity_pull_request.*
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.view.View
 import kotlinx.coroutines.*
 

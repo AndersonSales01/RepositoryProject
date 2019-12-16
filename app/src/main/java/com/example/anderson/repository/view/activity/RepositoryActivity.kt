@@ -1,16 +1,16 @@
 package com.example.anderson.repository.view.activity
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
-import android.support.v7.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v7.app.ActionBarDrawerToggle
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.widget.AbsListView
 import com.example.anderson.repository.R
@@ -20,7 +20,7 @@ import com.example.anderson.repository.viewmodel.RepositoryViewModel
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.toolbar.*
 
-class RepositoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class RepositoryActivity : AppCompatActivity() {
 
     private lateinit var repositoryViewModel: RepositoryViewModel
     private lateinit var repositoryAdapter: RepositoryAdapter
@@ -37,8 +37,6 @@ class RepositoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_repository)
 
-        botaoLayoutDrawer()
-        configurarNavigationView()
 
         repositoryAdapter = RepositoryAdapter(this)
 
@@ -73,7 +71,7 @@ class RepositoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
 
 
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
 
                 currentItems = manager.childCount
@@ -102,34 +100,6 @@ class RepositoryActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
 
        // statusRecyclerView()
 
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-
-    fun configurarNavigationView() {
-        navView.setNavigationItemSelectedListener(this)
-    }
-
-    fun botaoLayoutDrawer() {
-
-        var toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open_drawer, R.string.close_drawer)
-        drawerLayout.addDrawerListener(toggle)
-
-        toggle.syncState()
-    }
-
-    override fun onBackPressed() {
-
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-
-            drawerLayout.closeDrawer(GravityCompat.START)
-
-        } else {
-            super.onBackPressed()
-        }
     }
 
 
