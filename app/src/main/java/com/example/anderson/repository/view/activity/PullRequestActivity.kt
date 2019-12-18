@@ -12,11 +12,13 @@ import kotlinx.android.synthetic.main.activity_pull_request.*
 import androidx.lifecycle.Observer
 import android.view.View
 import kotlinx.coroutines.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class PullRequestActivity : BaseActivity(), CoroutineScope {
 
-    private lateinit var pullRequestViewModel: PullRequestViewModel
+
+    private val pullRequestViewModel: PullRequestViewModel by viewModel()
     private lateinit var pullRequestAdapter: PullRequestAdapter
     private  lateinit var nameRepository: String
     private  lateinit var nameOwner: String
@@ -37,22 +39,11 @@ class PullRequestActivity : BaseActivity(), CoroutineScope {
 
     override fun initialize(){
 
-        pullRequestViewModel = ViewModelProviders.of(this)
-                .get(PullRequestViewModel::class.java)
-
         initViews()
 
         observables()
 
-        launch {
-
-            withContext(Dispatchers.IO){
-                pullRequestViewModel.callRequestPullResquest(nameOwner, nameRepository)
-            }
-
-        }
-
-
+        pullRequestViewModel.callRequestPullResquest(nameOwner, nameRepository)
 
     }
 

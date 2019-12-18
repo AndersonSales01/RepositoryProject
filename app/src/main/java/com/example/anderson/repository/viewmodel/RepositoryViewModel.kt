@@ -1,26 +1,20 @@
 package com.example.anderson.repository.viewmodel
 
 
-import android.hardware.camera2.CameraManager
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.anderson.repository.model.entity.Author
 import com.example.anderson.repository.model.entity.Repository
-import com.example.anderson.repository.model.entityrequest.Result
-import com.example.anderson.repository.model.repository.RepoRepository
+import com.example.anderson.repository.model.repository.RepoRepositoryImpl
+import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
 /**
  * Created by Anderson on 16/12/2018.
  */
-class RepositoryViewModel : ViewModel() {
+class RepositoryViewModel(val repository: RepoRepositoryImpl) : ViewModel(), LifecycleObserver {
 
     private var listRepository = mutableListOf<Repository>()
 
@@ -29,9 +23,6 @@ class RepositoryViewModel : ViewModel() {
     private var showProgress = MutableLiveData<Boolean>()
 
     private var page = 1
-
-
-    val repository = RepoRepository()
 
 
     fun callrequestRepository() {
@@ -78,47 +69,29 @@ class RepositoryViewModel : ViewModel() {
 //
 //    }
 
-   private fun requestRepository() {
+    private fun requestRepository() {
 
         showProgress.value = true
 
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
 
-                val response = repository.loadRepository(page)
 
-                Log.d("response", response.code().toString())
+                val response = SuspendableResult.of<List<Repository>, Exception> {
 
-                if (response.isSuccessful) {
-
-                    response.body().let { body ->
-
-                        body.let { result ->
-
-                            for (repo in result!!.repositoryList) {
-
-
-                                if (repo.owner != null && repo.description != null) {
-
-                                    val repository = Repository(repo.nameRepository, repo.fullName, repo.description,
-                                            repo.numberForks, repo.numberStarts, Author(repo.owner.name, repo.owner.urlAvatar))
-
-                                    listRepository.add(repository)
-
-                                }
-                            }
-
-                            // Metodo postValue é usado para setar um valor no live data,quando está fora do contexto da Main Thread
-                            liveDataListRepository.postValue(listRepository)
-                            page++
-                        }
-
-                    }
-                } else {
-
-                    response.message()
-
+                    repository.loadRepository(page)
                 }
+                val onSuccess: suspend (List<Repository>) -> Unit = { list ->
+                    liveDataListRepository.postValue(list)
+                    page++
+                }
+                val onFailure: suspend (Exception) -> Unit = { error ->
+                    Log.d("Error Request", error.toString())
+                }
+
+
+                response.fold(onSuccess, onFailure)
+
 
                 showProgress.postValue(false)
             }
@@ -126,7 +99,7 @@ class RepositoryViewModel : ViewModel() {
     }
 
 
-    fun getMoreItems( currentItems: Int, scrollOutItems: Int, totalItems : Int){
+    fun getMoreItems(currentItems: Int, scrollOutItems: Int, totalItems: Int) {
 
         if (currentItems + scrollOutItems >= totalItems) {
             requestRepository()

@@ -31,7 +31,7 @@ object RepositoryApi {
             retrofit = Retrofit.Builder()
                     .baseUrl(Constants.BASEURL)
 //                    //Responsavel por criar objetos RX
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                     //Aplicando coroutine adapter
                     .addCallAdapterFactory(CoroutineCallAdapterFactory())
                     .addConverterFactory(GsonConverterFactory.create(gson))

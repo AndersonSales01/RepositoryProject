@@ -1,34 +1,32 @@
 package com.example.anderson.repository.viewmodel
 
 
+import android.util.Log
 import androidx.lifecycle.*
 
 
 import com.example.anderson.repository.model.entity.PullRequest
 import com.example.anderson.repository.model.entity.User
-import com.example.anderson.repository.model.repository.RepoPullRequest
+import com.example.anderson.repository.model.entityrequest.PullRequestResult
+import com.example.anderson.repository.model.repository.RepoPullRequestImpl
+import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import java.lang.Exception
 
 
 /**
  * Created by Anderson on 05/01/2019.
  */
-class PullRequestViewModel : ViewModel(), LifecycleObserver {
+class PullRequestViewModel(private val repository: RepoPullRequestImpl) : ViewModel(), LifecycleObserver {
 
     private var listPullRequest = mutableListOf<PullRequest>()
 
     private var liveDataListPullRequestRepository = MutableLiveData<List<PullRequest>>()
     private var showProgress = MutableLiveData<Boolean>()
-
-
-    val repository = RepoPullRequest()
 
 
     fun callRequestPullResquest(nameOwner: String, nameRepository: String) {
@@ -87,39 +85,27 @@ class PullRequestViewModel : ViewModel(), LifecycleObserver {
 
             withContext(Dispatchers.IO) {
 
-
-
                 showProgress.postValue(true)
 
-                delay(500)
 
-                val response = repository.loadPullRequest(nameOwner, nameRepository)
+                SuspendableResult.of<List<PullRequest>, Exception> {
 
-                if (response.isSuccessful) {
+                    repository.loadPullRequest(nameOwner, nameRepository)
 
-                    response.body().let { listOfPullRequest ->
+                }.fold(
+                        success = { list ->
 
+                            liveDataListPullRequestRepository.postValue(list)
+                            showProgress.postValue(false)
 
-                        listOfPullRequest.let { pullRequests ->
+                        },
+                        failure = { error ->
 
-                            if (pullRequests != null) {
+                            Log.d("Error Request", error.toString())
+                            showProgress.postValue(false)
 
-                                for (pullRequest in pullRequests) {
-
-                                    val pullRequestObj = PullRequest(pullRequest.title, pullRequest.body, pullRequest.dataCreatePullRequest,
-                                            pullRequest.urlPullRequest, User(pullRequest.user.name, pullRequest.user.avatarURL))
-
-                                    listPullRequest.add(pullRequestObj)
-
-                                }
-
-                                liveDataListPullRequestRepository.postValue(listPullRequest)
-                                showProgress.postValue(false)
-
-                            }
                         }
-                    }
-                }
+                )
             }
         }
     }

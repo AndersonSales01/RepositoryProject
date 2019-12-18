@@ -13,16 +13,20 @@ import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
 import android.widget.AbsListView
+import androidx.lifecycle.LifecycleOwner
 import com.example.anderson.repository.R
 import com.example.anderson.repository.model.entity.Repository
 import com.example.anderson.repository.view.adapter.RepositoryAdapter
 import com.example.anderson.repository.viewmodel.RepositoryViewModel
 import kotlinx.android.synthetic.main.activity_repository.*
 import kotlinx.android.synthetic.main.toolbar.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RepositoryActivity : BaseActivity() {
+class RepositoryActivity : BaseActivity(), LifecycleOwner {
 
-    private lateinit var repositoryViewModel: RepositoryViewModel
+    private val repositoryViewModel: RepositoryViewModel by viewModel()
+
+   // private lateinit var repositoryViewModel: RepositoryViewModel
     private lateinit var repositoryAdapter: RepositoryAdapter
     private var isScrolling: Boolean = true
     private lateinit var manager: LinearLayoutManager
@@ -43,8 +47,6 @@ class RepositoryActivity : BaseActivity() {
 
     override fun initialize() {
 
-        repositoryViewModel = ViewModelProviders.of(this)
-                .get(RepositoryViewModel::class.java)
 
         initViews()
 

@@ -13,5 +13,5 @@ import rx.Observable
 interface PullRequestEndPoint {
 
     @GET("repos/{login}/{name}/pulls")
-    suspend fun callPullRequest(@Path("login") loginOwner: String, @Path("name") nameRepository: String): Response<List<PullRequestResult>>
+     fun callPullRequest(@Path("login") loginOwner: String, @Path("name") nameRepository: String): Deferred<List<PullRequestResult>>
 }

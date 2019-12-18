@@ -1,10 +1,10 @@
 package com.example.anderson.repository.model.api.endpoint
 
-import com.example.anderson.repository.model.entityrequest.Result
+import com.example.anderson.repository.model.entityrequest.ResponseDTO
+import kotlinx.coroutines.Deferred
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import rx.Observable
 
 /**
  * Created by Anderson on 16/12/2018.
@@ -12,8 +12,8 @@ import rx.Observable
 interface RepositoryEndPoint {
 
 //    @GET("search/repositories?q=language:Java&sort=stars")
-////    fun  listRepository( @Query("page") page: Int ): Observable<Result>
+////    fun  listRepository( @Query("page") page: Int ): Observable<ResponseDTO>
 
     @GET("search/repositories?q=language:Java&sort=stars")
-    suspend fun  listRepository( @Query("page") page: Int ): Response<Result>
+    fun  listRepository( @Query("page") page: Int ): Deferred<ResponseDTO>
 }

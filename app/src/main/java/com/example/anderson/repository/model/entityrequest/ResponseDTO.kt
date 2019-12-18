@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Anderson on 15/12/2018.
  */
-class Result(@SerializedName("items")
+class ResponseDTO(@SerializedName("items")
                         val repositoryList: List<RepositoryResult>) {
 
 
