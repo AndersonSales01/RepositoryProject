@@ -5,13 +5,13 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Anderson on 05/01/2019.
  */
-class PullRequestResult ( val title: String,
-                          val body: String,
-                          @SerializedName("created_at")
+class PullRequestDTO (val title: String,
+                      val body: String,
+                      @SerializedName("created_at")
                           val dataCreatePullRequest: String,
-                          @SerializedName("html_url")
+                      @SerializedName("html_url")
                           val urlPullRequest: String,
-                          @SerializedName("user")
+                      @SerializedName("user")
                           val user: UserResult  ) {
 
 }

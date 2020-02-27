@@ -6,12 +6,9 @@ import androidx.lifecycle.*
 
 
 import com.example.anderson.repository.model.entity.PullRequest
-import com.example.anderson.repository.model.entity.User
-import com.example.anderson.repository.model.entityrequest.PullRequestResult
 import com.example.anderson.repository.model.repository.RepoPullRequestImpl
 import com.github.kittinunf.result.coroutines.SuspendableResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

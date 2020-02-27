@@ -5,10 +5,7 @@ import com.example.anderson.repository.model.api.RepositoryApi
 import com.example.anderson.repository.model.api.endpoint.PullRequestEndPoint
 import com.example.anderson.repository.model.entity.PullRequest
 import com.example.anderson.repository.model.entity.User
-import com.example.anderson.repository.model.entityrequest.PullRequestResult
 import com.example.anderson.repository.model.repository.interfaces.IRepoPullRquest
-import retrofit2.Response
-import rx.Observable
 import java.util.ArrayList
 
 /**
