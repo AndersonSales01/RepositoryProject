@@ -31,13 +31,13 @@ class RepositoryActivityTest {
         val instantTaskExecutorRule = InstantTaskExecutorRule()
 
 
-    @Rule
-    @JvmField
-    val mockitoRule: MockitoRule = MockitoJUnit.rule()
+//    @Rule
+//    @JvmField
+//    val mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Before
     fun setUp() {
-        MockitoAnnotations.initMocks(this)
+//        MockitoAnnotations.initMocks(this)
         repositoryViewModel = RepositoryViewModel(RepoRepositoryImpl())
     }
 

@@ -25,6 +25,8 @@ class PullRequestViewModel(private val repository: RepoPullRequestImpl) : ViewMo
     private var liveDataListPullRequestRepository = MutableLiveData<List<PullRequest>>()
     private var showProgress = MutableLiveData<Boolean>()
 
+    private var result  = MutableLiveData<Int>()
+
 
     fun callRequestPullResquest(nameOwner: String, nameRepository: String) {
 
@@ -111,5 +113,15 @@ class PullRequestViewModel(private val repository: RepoPullRequestImpl) : ViewMo
     fun getListPullRequests(): LiveData<List<PullRequest>> = liveDataListPullRequestRepository
     fun showProgress(): LiveData<Boolean> = showProgress
 
+    fun Soma(valor1: Int, valor2: Int) {
+
+        result.postValue(valor1 + valor2)
+    }
+    fun diminuicao(valor1: Int, valor2: Int) {
+
+        result.postValue( valor1 - valor2)
+    }
+
+    fun getResultCalculate(): LiveData<Int> = result
 
 }
